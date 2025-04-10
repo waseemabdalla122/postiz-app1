@@ -1,12 +1,8 @@
-[[phases.setup]
-nixPkgs = ['nodejs', 'python3']
-aptPkgs = ['build-essential', 'libudev-dev']
+[build]
+builder = "nixpacks"
+buildCommand = "npm install && npx nx build frontend && npx nx build backend"
 
-[phases.install]
-cmds = ['npm install']
-
-[phases.build]
-cmds = ['npm run build']
-
-[start]
-cmd = 'cd dist/apps/backend && node main.js'
+[deploy]
+startCommand = "cd dist/apps/backend && node main.js"
+healthcheckPath = "/api/health"
+healthcheckTimeout = 100
