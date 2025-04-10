@@ -5,6 +5,6 @@ buildCommand = "npm install && npx nx build frontend && npx nx build backend"
 [deploy]
 startCommand = "cd dist/apps/backend && node main.js"
 healthcheckPath = "/api/health"
-healthcheckTimeout = 100
+healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
