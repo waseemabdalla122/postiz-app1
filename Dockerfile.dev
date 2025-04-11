@@ -75,4 +75,7 @@ VOLUME /config
 VOLUME /uploads
 
 ## Labels at the bottom, because CI will eventually add dates, commit hashes, etc.
-LABEL org.opencontainers.image.title="Postiz App (Production)"
+LABEL org.opencontainers.image.title="Postiz App (Production)" 
+
+tsconfig.tsbuildinfo
+
