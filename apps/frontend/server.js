@@ -1,13 +1,20 @@
-const { createServer } = require('http');
-const next = require('next');
+// apps/frontend/server.js
+const express = require('express')
+const next = require('next')
 
-const app = next({ dev: false });
-const handle = app.getRequestHandler();
+const port = parseInt(process.env.PORT, 10) || 3000
+const dev = process.env.NODE_ENV !== 'production'
+const app = next({ dev })
+const handle = app.getRequestHandler()
 
 app.prepare().then(() => {
-  createServer((req, res) => {
-    handle(req, res);
-  }).listen(3000, () => {
-    console.log('> Ready on http://localhost:3000');
-  });
-});
+  const server = express()
+
+  server.all('*', (req, res) => {
+    return handle(req, res)
+  })
+
+  server.listen(port, () => {
+    console.log(`> Ready on http://localhost:${port}`)
+  })
+})
