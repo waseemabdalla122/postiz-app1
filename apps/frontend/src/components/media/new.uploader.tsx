@@ -133,7 +133,7 @@ export function MultipartFileUploaderAfter({
     return uppy;
   }, []);
 
-  return (
+    return (
     <>
       {/* <Dashboard uppy={uppy} /> */}
       <div className="pointer-events-none">
@@ -145,7 +145,6 @@ export function MultipartFileUploaderAfter({
           strings: {
             chooseFiles: 'Upload',
           },
-          pluralize: (n) => n,
         }}
       />
     </>
