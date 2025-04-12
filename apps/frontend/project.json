@@ -9,14 +9,19 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
+        "root": "apps/frontend",
         "outputPath": "dist/apps/frontend",
         "postcssConfig": "apps/frontend/postcss.config.js"
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/frontend"
+          "dev": true,
+          "outputPath": "dist/apps/frontend"
         },
-        "production": {}
+        "production": {
+          "dev": false,
+          "outputPath": "dist/apps/frontend"
+        }
       }
     },
     "serve": {
