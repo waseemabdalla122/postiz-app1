@@ -1,15 +1,8 @@
-# This Dockerfile is used for producing 3 container images.
-#
-# base - which is thrown away, that contains node and the basic infrastructure. 
-# devcontainer - which is used for development, and contains the source code and the node_modules.
-# dist - which is used for production, and contains the built source code and the node_modules.
-
 ARG NODE_VERSION="20.17"
 
 # Base image
 FROM docker.io/node:${NODE_VERSION}-alpine3.19 AS base
 
-## Just reduce unccessary noise in the logs.
 ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 ENV NEXT_TELEMETRY_DISABLED=1
 
@@ -29,9 +22,6 @@ COPY var/docker/supervisord.conf /etc/supervisord.conf
 COPY var/docker/supervisord /app/supervisord_available_configs/
 COPY var/docker/Caddyfile /app/Caddyfile
 COPY .env.example /config/postiz.env
-
-VOLUME /config
-VOLUME /uploads
 
 LABEL org.opencontainers.image.source=https://github.com/gitroomhq/postiz-app
 
@@ -55,9 +45,6 @@ COPY libraries /app/libraries/
 
 RUN npm ci --no-fund && npx nx run-many --target=build --projects=frontend,backend,workers,cron
 
-VOLUME /config
-VOLUME /uploads
-
 LABEL org.opencontainers.image.title="Postiz App (DevContainer)"
 
 # Output image
@@ -65,17 +52,7 @@ FROM base AS dist
 
 COPY --from=devcontainer /app/node_modules/ /app/node_modules/
 COPY --from=devcontainer /app/dist/ /app/dist/
-
-# Required for prisma
 COPY --from=devcontainer /app/libraries/ /app/libraries/
-
 COPY package.json nx.json /app/
 
-VOLUME /config
-VOLUME /uploads
-
-## Labels at the bottom, because CI will eventually add dates, commit hashes, etc.
-LABEL org.opencontainers.image.title="Postiz App (Production)" 
-
-tsconfig.tsbuildinfo
-
+LABEL org.opencontainers.image.title="Postiz App (Production)"
