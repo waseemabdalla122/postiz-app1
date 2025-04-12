@@ -43,7 +43,8 @@ COPY nx.json tsconfig.base.json package.json package-lock.json build.plugins.js 
 COPY apps /app/apps/
 COPY libraries /app/libraries/
 
-RUN npm ci --no-fund && npx nx run-many --target=build --projects=frontend,backend,workers,cron
+# ✅ FIXED: use legacy-peer-deps to resolve npm conflict
+RUN npm ci --legacy-peer-deps --no-fund && npx nx run-many --target=build --projects=frontend,backend,workers,cron
 
 LABEL org.opencontainers.image.title="Postiz App (DevContainer)"
 
