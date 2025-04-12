@@ -1,10 +1,11 @@
 [build]
 builder = "DOCKERFILE"
-buildCommand = "npm install && npx nx build frontend && npx nx build backend"
+buildCommand = "npm install --legacy-peer-deps && npx nx build frontend"
 
 [deploy]
-startCommand = "cd dist/apps/backend && node main.js"
+startCommand = "npx serve dist/apps/frontend"
 healthcheckPath = "/"
 healthcheckTimeout = 900
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
+
