@@ -4,15 +4,16 @@ import { useCallback, useEffect } from 'react';
 
 const ReturnUrlComponent = () => {
   const params = useSearchParams();
-  const url = params.get('returnUrl');
+  const url = params?.get('returnUrl') ?? '';
+
   useEffect(() => {
-    if (url?.indexOf?.('http')! > -1) {
-      localStorage.setItem('returnUrl', url!);
+    if (url.includes('http')) {
+      localStorage.setItem('returnUrl', url);
     }
   }, [url]);
 
   return null;
-}
+};
 
 export const useReturnUrl = () => {
   return {
@@ -21,7 +22,7 @@ export const useReturnUrl = () => {
       localStorage.removeItem('returnUrl');
       return data;
     }, [])
-  }
-}
+  };
+};
 
 export default ReturnUrlComponent;
