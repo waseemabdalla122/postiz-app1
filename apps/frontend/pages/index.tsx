@@ -1,6 +1,5 @@
-export default function Home() {
-  return <h1>Hello from the Postiz Frontend!</h1>;
-}
+[build]
+builder = "nixpacks"
 
-
-
+[env]
+RAILWAY_DISABLE_TSBUILDINFO_CACHE = "true"
