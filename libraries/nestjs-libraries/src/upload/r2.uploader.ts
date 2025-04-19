@@ -1,35 +1,24 @@
-// COMMENTED OUT prepareUploadParts
-/*
-export async function prepareUploadParts(
+export default async function handleR2Upload(
+  endpoint: string,
   req: Request,
   res: Response
 ) {
-  const { partData } = req.body;
-
-  const parts = partData.parts;
-
-  const response = {
-    presignedUrls: {},
-  };
-
-  for (const part of parts) {
-    try {
-      const params = {
-        Bucket: CLOUDFLARE_BUCKETNAME,
-        Key: partData.key,
-        PartNumber: part.number,
-        UploadId: partData.uploadId,
-      };
-      const command = new UploadPartCommand({ ...params });
-      const url = await getSignedUrl(R2, command, { expiresIn: 3600 });
-
-      // @ts-ignore
-      response.presignedUrls[part.number] = url;
-    } catch (err) {
-      console.log('Error', err);
-      return res.status(500).json(err);
-    }
+  switch (endpoint) {
+    case 'create-multipart-upload':
+      return createMultipartUpload(req, res);
+    // case 'prepare-upload-parts':
+    //   return prepareUploadParts(req, res);
+    case 'complete-multipart-upload':
+      return completeMultipartUpload(req, res);
+    case 'list-parts':
+      return listParts(req, res);
+    case 'abort-multipart-upload':
+      return abortMultipartUpload(req, res);
+    // case 'sign-part':
+    //   return signPart(req, res);
   }
+  return res.status(404).end();
+}
 
   return res.status(200).json(response);
 }
